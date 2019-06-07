@@ -8,7 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
 import com.appsflyer.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +23,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Button trackEventButton = findViewById(R.id.track_event_button);
+        trackEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Map<String, Object> eventValue = new HashMap<String, Object>();
+                eventValue.put(AFInAppEventParameterName.REVENUE, 200);
+                eventValue.put(AFInAppEventParameterName.CONTENT_TYPE, "category_a");
+                eventValue.put(AFInAppEventParameterName.CONTENT_ID, "1234567");
+                eventValue.put(AFInAppEventParameterName.CURRENCY, "USD");
+                AppsFlyerLib.getInstance().trackEvent(getApplicationContext(), AFInAppEventType.PURCHASE, eventValue);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "x3UxtAb6HLXmFYXeMoKNjM");
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        eventValue.put(AFInAppEventParameterName.REGSITRATION_METHOD,"Facebook");
+        AppsFlyerLib.getInstance().trackEvent(getApplicationContext(),AFInAppEventType.COMPLETE_REGISTRATION, eventValue);
+
     }
 
     @Override
